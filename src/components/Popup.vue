@@ -2,7 +2,17 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" max-width="600px">
       <template v-slot:activator="{ on }">
-        <v-btn color="primary" dark fab fixed bottom right @click="dialog = true" v-on="on">
+        <v-btn
+          color="primary"
+          dark
+          fab
+          fixed
+          bottom
+          right
+          @click="handleFabClick"
+          v-on="dialog ? on : null"
+          :id="deleteMode"
+        >
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </template>
@@ -84,6 +94,14 @@ export default {
       this.parcela = "1";
       this.date = moment().format("YYYY-MM-DD");
       this.radioGroup = false;
+    },
+    checkSelectionLength: function() {
+      return this.$store.state.selection.length > 0;
+    },
+    handleFabClick: function() {
+      if (this.checkSelectionLength())
+        this.$store.commit("deleteDataFromSelection");
+      else this.dialog = true;
     }
   },
   computed: {
@@ -98,7 +116,38 @@ export default {
     },
     dateValue: function() {
       return moment(this.date);
+    },
+    deleteMode: function() {
+      return this.checkSelectionLength() ? "delete" : "add";
     }
   }
 };
 </script>
+
+<style scoped>
+#delete {
+  background-color: red !important;
+  animation: spin-right 0.5s;
+  animation-fill-mode: forwards;
+}
+#add {
+  animation: spin-left 0.5s;
+  animation-fill-mode: forwards;
+}
+@keyframes spin-right {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(45deg);
+  }
+}
+@keyframes spin-left {
+  from {
+    transform: rotate(45deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+</style>

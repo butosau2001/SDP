@@ -10,7 +10,7 @@
       min-width="290px"
     >
       <template v-slot:activator="{ on }">
-        <v-text-field label="Data" readonly :value="value" v-on="on" :disabled="disabled"></v-text-field>
+        <v-text-field label="Data" readonly :value="fromDateDisp" v-on="on" :disabled="disabled"></v-text-field>
       </template>
       <v-date-picker
         locale="pt-br"

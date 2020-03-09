@@ -20,6 +20,68 @@ Vue.use(VCurrencyField, {
 
 Vue.config.productionTip = false;
 
+Vue.directive("longpress", {
+  bind: function(el, binding, vNode) {
+    let pressTimer = null;
+
+    let start = e => {
+      if (e.type === "click" && e.button !== 0) return;
+      if (pressTimer === null)
+        pressTimer = setTimeout(() => {
+          handler();
+        }, 1000);
+    };
+
+    let cancel = e => {
+      if (pressTimer !== null) {
+        clearTimeout(pressTimer);
+        pressTimer = null;
+      }
+    };
+
+    const handler = e => {
+      binding.value(e);
+    };
+
+    el.addEventListener("mousedown", start);
+    el.addEventListener("click", cancel);
+    el.addEventListener("mouseout", cancel);
+  }
+});
+
+Vue.directive("quickpress", {
+  bind: function(el, binding, vNode) {
+    let pressTimer = null;
+
+    let start = e => {
+      if (e.type === "click" && e.button !== 0) return;
+      if (pressTimer === null) {
+        pressTimer = setTimeout(() => {
+          pressTimer = null;
+        }, 1000);
+      }
+    };
+
+    let cancel = e => {
+      if (pressTimer !== null) {
+        clearTimeout(pressTimer);
+        pressTimer = null;
+      }
+    };
+
+    const handler = e => {
+      if (pressTimer !== null) {
+        binding.value(e);
+        pressTimer = null;
+      }
+    };
+
+    el.addEventListener("mousedown", start);
+    el.addEventListener("mouseout", cancel);
+    el.addEventListener("mouseup", handler);
+  }
+});
+
 new Vue({
   router,
   store,

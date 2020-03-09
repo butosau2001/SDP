@@ -4,7 +4,6 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 import Expense from "../classes/Expense";
-import moment from "moment";
 
 export default new Vuex.Store({
   state: {
@@ -22,7 +21,8 @@ export default new Vuex.Store({
       "Novembro",
       "Dezembro"
     ],
-    expenses: []
+    expenses: [],
+    selection: []
   },
   mutations: {
     insert(state, expense) {
@@ -31,6 +31,19 @@ export default new Vuex.Store({
     },
     set(state, expenses) {
       state.expenses = expenses;
+    },
+    addSelection(state, id) {
+      state.selection.push(id);
+    },
+    removeSelection(state, id) {
+      state.selection = state.selection.filter(el => el !== id);
+    },
+    deleteDataFromSelection(state) {
+      state.expenses = state.expenses.filter(
+        el => !state.selection.includes(el.id)
+      );
+      state.selection = [];
+      localStorage.setItem("expenses", JSON.stringify(state.expenses));
     }
   },
   actions: {

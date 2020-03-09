@@ -1,14 +1,15 @@
 <template>
   <div class="home fill">
     <v-col class="home fill">
-      <div class="fill" v-if="this.expenses.length > 0">
+      <Loader v-if="!loaded" />
+      <div class="fill" v-if="expenses.length > 0">
         <YearContainer
           v-for="i in this.endYear - this.startYear + 1"
           :key="String(startYear + i - 1)"
           :year="String(startYear + i - 1)"
         >
           <MonthCard
-            v-for="(month, index) in months"
+            v-for="(month, index) in MONTHS"
             :month="month"
             :key="index"
             :expenses="getValidExpanses(startYear + i - 1, index)"
@@ -17,29 +18,33 @@
       </div>
       <div v-else>NÃO HÁ INFORMAÇÕES</div>
     </v-col>
-    <Popup class="absolute" />
+    <Popup class="absolute" v-if="loaded" />
   </div>
 </template>
 
 <script>
 import MonthCard from "../components/MonthContainer";
 import YearContainer from "../components/YearContainer";
+
+import Loader from "../components/Loader";
+
 import Popup from "../components/Popup";
 import moment from "moment";
 
-// import Expanse from "../classes/Expanse";
+import { mapState } from "vuex";
 
 export default {
   name: "Home",
   data: () => ({
-    expenses: [],
+    loaded: false,
     startYear: 0,
     endYear: 0
   }),
   components: {
     MonthCard,
     YearContainer,
-    Popup
+    Popup,
+    Loader
   },
   methods: {
     getMaxYear() {
@@ -59,8 +64,7 @@ export default {
       this.endYear = this.getMaxYear();
     },
     getValidExpanses(year, month) {
-      const date = moment(new Date(year, month, 1)).format();
-      console.log(date);
+      const date = moment(new Date(year, month, 18)).format();
       return this.expenses.filter(el => this.validDate(date, el.start, el.end));
     },
     validDate(date, start, end) {
@@ -68,14 +72,13 @@ export default {
     }
   },
   created: function() {
-    setInterval(() => {
-      this.expenses = this.$store.state.expenses;
-      this.setMinMaxYears();
-    }, 5000);
+    this.loaded = true;
+    this.setMinMaxYears();
   },
-  computed: {
-    months() {
-      return this.$store.state.MONTHS;
+  computed: mapState(["MONTHS", "expenses"]),
+  watch: {
+    expenses(newValue) {
+      this.setMinMaxYears();
     }
   }
 };
