@@ -9,7 +9,8 @@
           ? handleLongPress()
           : handleQuickPress()
     "
-    v-longpress="handleLongPress"
+    v-long-press="1000"
+    @long-press-start="handleLongPress"
     v-bind:class="{ active: this.$store.state.selection.includes(item.id) }"
   >
     <span>{{ item.description }}</span>

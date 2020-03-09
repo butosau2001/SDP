@@ -6,6 +6,7 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 import VCurrencyField from "v-currency-field";
 import { VTextField } from "vuetify/lib"; //Globally import VTextField
+import LongPress from "vue-directive-long-press";
 
 Vue.component("v-text-field", VTextField);
 
@@ -20,34 +21,7 @@ Vue.use(VCurrencyField, {
 
 Vue.config.productionTip = false;
 
-Vue.directive("longpress", {
-  bind: function(el, binding, vNode) {
-    let pressTimer = null;
-
-    let start = e => {
-      if (e.type === "click" && e.button !== 0) return;
-      if (pressTimer === null)
-        pressTimer = setTimeout(() => {
-          handler();
-        }, 1000);
-    };
-
-    let cancel = e => {
-      if (pressTimer !== null) {
-        clearTimeout(pressTimer);
-        pressTimer = null;
-      }
-    };
-
-    const handler = e => {
-      binding.value(e);
-    };
-
-    el.addEventListener("mousedown", start);
-    el.addEventListener("click", cancel);
-    el.addEventListener("mouseout", cancel);
-  }
-});
+Vue.directive("long-press", LongPress);
 
 Vue.directive("quickpress", {
   bind: function(el, binding, vNode) {

@@ -8138,10 +8138,10 @@ vue-cli-plugin-vuetify@~2.0.5:
     semver "^7.1.2"
     shelljs "^0.8.3"
 
-vue-currency-input@^1.17.1:
-  version "1.17.1"
-  resolved "https://registry.yarnpkg.com/vue-currency-input/-/vue-currency-input-1.17.1.tgz#f6e626f8a018e5aed933a3c886e57cfcdfe15ecb"
-  integrity sha512-BFvs0YrRYG7Zbykp5tQ4GzucyPm5gfxnBRkZC1xzV/jdaRBb2J5vSmUn+G+itWDmh2pCEmHVQM+GA0q2mbHgsQ==
+vue-directive-long-press@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/vue-directive-long-press/-/vue-directive-long-press-1.1.0.tgz#ef30e3aa846c81b843a28589f288a7496a852d0a"
+  integrity sha512-OHhR4N1kuuKaK87SPmqkcm5Y81HjXgv5DfWr96flIkTYveWps1AozKiNrabsIirq+ibSZWFr3IUr0en+Ce3fAA==
 
 vue-eslint-parser@^7.0.0:
   version "7.0.0"
